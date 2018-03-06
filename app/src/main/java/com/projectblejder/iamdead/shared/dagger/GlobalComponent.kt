@@ -1,5 +1,7 @@
-package com.projectblejder.iamdead
+package com.projectblejder.iamdead.shared.dagger
 
+import com.projectblejder.iamdead.presentation.MainActivity
+import com.projectblejder.iamdead.shared.GlobalApplication
 import dagger.Component
 import dagger.Module
 import dagger.android.AndroidInjectionModule

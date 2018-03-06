@@ -1,8 +1,9 @@
-package com.projectblejder.iamdead
+package com.projectblejder.iamdead.infrastructure
 
 import android.app.job.JobParameters
 import android.app.job.JobService
 import android.content.Context
+import com.projectblejder.iamdead.shared.extensions.inEdit
 import org.joda.time.DateTime
 
 class MyJobService : JobService() {

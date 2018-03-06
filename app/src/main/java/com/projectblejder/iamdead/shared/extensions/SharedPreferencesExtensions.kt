@@ -1,4 +1,4 @@
-package com.projectblejder.iamdead
+package com.projectblejder.iamdead.shared.extensions
 
 import android.content.SharedPreferences
 

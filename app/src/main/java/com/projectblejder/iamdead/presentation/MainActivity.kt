@@ -1,4 +1,4 @@
-package com.projectblejder.iamdead
+package com.projectblejder.iamdead.presentation
 
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
@@ -11,8 +11,9 @@ import android.os.Looper
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
+import com.projectblejder.iamdead.infrastructure.MyJobService
+import com.projectblejder.iamdead.R
 import dagger.android.AndroidInjection
-import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,9 +25,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var jobScheduler: JobScheduler
     lateinit var sharedPreferences: SharedPreferences
 
-    @Inject
-    lateinit var emptyClassToInject: EmptyClassToInject
-
     val handler = Handler(Looper.getMainLooper())
 
 
@@ -35,9 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        startStopButton = findViewById(R.id.startStopBtn)
-        refreshButton = findViewById(R.id.refreshBtn)
-        status = findViewById(R.id.status)
+
         jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
         sharedPreferences = getSharedPreferences("job", Context.MODE_PRIVATE)
 
