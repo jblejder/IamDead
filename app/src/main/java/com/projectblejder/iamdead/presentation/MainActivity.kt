@@ -9,36 +9,32 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.support.v7.app.AppCompatActivity
-import android.widget.Button
-import android.widget.TextView
-import com.projectblejder.iamdead.infrastructure.MyJobService
 import com.projectblejder.iamdead.R
+import com.projectblejder.iamdead.databinding.ActivityMainBinding
+import com.projectblejder.iamdead.infrastructure.MyJobService
+import com.projectblejder.iamdead.presentation.base.Binding
 import dagger.android.AndroidInjection
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
-
-
-    lateinit var startStopButton: Button
-    lateinit var refreshButton: Button
-    lateinit var status: TextView
 
     lateinit var jobScheduler: JobScheduler
     lateinit var sharedPreferences: SharedPreferences
 
     val handler = Handler(Looper.getMainLooper())
 
+    @Inject
+    lateinit var viewModel: MainActivityViewModel
+    val binding = Binding<ActivityMainBinding>(R.layout.activity_main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+        binding.setContentView(this)
 
         jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
         sharedPreferences = getSharedPreferences("job", Context.MODE_PRIVATE)
 
-        startStopButton.setOnClickListener { startStop() }
-        refreshButton.setOnClickListener { refresh() }
 
         refresh()
     }
@@ -80,7 +76,6 @@ class MainActivity : AppCompatActivity() {
             stringBuilder.append("$it\n")
         }
 
-        status.text = stringBuilder.toString()
     }
 }
 
