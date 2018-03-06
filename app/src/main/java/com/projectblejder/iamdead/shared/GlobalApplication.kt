@@ -8,6 +8,6 @@ import dagger.android.support.DaggerApplication
 class GlobalApplication : DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerGlobalComponent.create()
+        return DaggerGlobalComponent.builder().create(this)
     }
 }
