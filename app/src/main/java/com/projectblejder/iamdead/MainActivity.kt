@@ -1,9 +1,7 @@
 package com.projectblejder.iamdead
 
 import android.app.job.JobInfo
-import android.app.job.JobParameters
 import android.app.job.JobScheduler
-import android.app.job.JobService
 import android.content.ComponentName
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,7 +11,8 @@ import android.os.Looper
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
-import org.joda.time.DateTime
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,10 +24,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var jobScheduler: JobScheduler
     lateinit var sharedPreferences: SharedPreferences
 
+    @Inject
+    lateinit var emptyClassToInject: EmptyClassToInject
+
     val handler = Handler(Looper.getMainLooper())
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -86,20 +89,3 @@ class MainActivity : AppCompatActivity() {
 }
 
 
-class MyJobService : JobService() {
-
-    override fun onStopJob(p0: JobParameters?): Boolean {
-        return false
-    }
-
-    override fun onStartJob(p0: JobParameters?): Boolean {
-        val preferences = applicationContext.getSharedPreferences("job", Context.MODE_PRIVATE)
-        preferences.inEdit {
-            val set = preferences.getStringSet("set", emptySet()).toMutableSet()
-            set.add(DateTime.now().toString())
-            putStringSet("set", set)
-        }
-        jobFinished(p0, false)
-        return false
-    }
-}
