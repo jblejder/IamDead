@@ -22,14 +22,14 @@ class JobDispatcher
             return jobScheduler.allPendingJobs.any { it.id == JOB_ID }
         }
 
-    fun start() {
+    fun start(config: Config) {
         if (isRunning) {
             return
         }
         val componentName = ComponentName(context, MyJobService::class.java)
         val jobInfo = JobInfo.Builder(JOB_ID, componentName)
                 .setPersisted(true)
-                .setPeriodic(10_000)
+                .setPeriodic(config.interval)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .build()
 
@@ -43,4 +43,8 @@ class JobDispatcher
         jobScheduler.cancel(JOB_ID)
 
     }
+
+    data class Config(
+            val interval: Long
+    )
 }
